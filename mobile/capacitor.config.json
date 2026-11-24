@@ -1,0 +1,14 @@
+{
+  "appId": "com.gymplanner.app",
+  "appName": "Gym Planner",
+  "webDir": "www",
+  "backgroundColor": "#202329",
+  "server": {
+    "androidScheme": "http",
+    "cleartext": true,
+    "allowNavigation": ["*"]
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}

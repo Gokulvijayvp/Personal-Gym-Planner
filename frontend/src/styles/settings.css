@@ -1,0 +1,64 @@
+/* Settings */
+.settings-form{max-width:820px}
+.settings-stack{display:grid;gap:16px}
+.settings-skeleton{height:200px;border-radius:16px}
+.panel.settings-card{min-height:0;padding:22px;display:grid;gap:18px}
+.settings-card-head{display:flex;align-items:center;gap:12px;min-width:0}
+.settings-card-head>div{flex:1;min-width:0}
+.settings-card-head h2{margin:0;font:800 17px Manrope,sans-serif;letter-spacing:-.3px}
+.settings-card-head p{margin:3px 0 0;color:var(--muted);font-size:12px;line-height:1.4}
+.settings-card-head .btn{flex:none}
+.settings-icon{flex:none;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:var(--sage);color:var(--green-dark)}
+.settings-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+.settings-note{margin:0;padding:11px 13px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);color:var(--text-soft);font-size:12px;line-height:1.55}
+.settings-preview{margin:0;font-size:13px;color:var(--ink-soft)}
+.settings-preview b{color:var(--green-dark)}
+
+.input-unit{position:relative;min-width:0}
+.input-unit input{padding-right:78px!important}
+.input-unit .unit{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:600;color:var(--muted);pointer-events:none}
+.field .input-unit input:not([type]),.field .input-unit input[type=text]{width:100%}
+
+.choice-group{display:flex;flex-wrap:wrap;gap:8px}
+.choice{position:relative;display:inline-flex;flex-direction:column;justify-content:center;gap:1px;min-height:44px;min-width:0;padding:6px 16px;border:1px solid var(--border);border-radius:12px;background:var(--surface);color:var(--ink);cursor:pointer;font-size:13px;font-weight:700;transition:background .15s,border-color .15s}
+.choice small{font-size:11px;font-weight:500;color:var(--muted)}
+.choice input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.choice:hover{background:var(--surface-2)}
+.choice.is-checked{background:var(--sage);border-color:var(--green);color:var(--green-dark)}
+.choice:has(input:focus-visible){box-shadow:var(--focus)}
+.choice-field:disabled .choice{opacity:.6;cursor:not-allowed}
+
+.data-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:0}
+.data-grid>div{padding:11px 13px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);min-width:0}
+.data-grid dt{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.3px}
+.data-grid dd{margin:3px 0 0;font-size:14px;font-weight:700;overflow-wrap:anywhere}
+.data-skeleton{height:150px;border-radius:12px}
+.backup-box{display:grid;gap:10px;padding:16px;border-radius:14px;border:1px solid var(--sage-line);background:var(--surface-2)}
+.backup-box h3{margin:0;font:800 15px Manrope,sans-serif}
+.backup-box p{margin:0;font-size:13px;line-height:1.55;color:var(--ink-soft)}
+.backup-box p.hint{font-size:12px;color:var(--muted)}
+.backup-box ul{margin:0;padding-left:20px;font-size:13px;line-height:1.7;color:var(--ink-soft)}
+.backup-box .form-alert{margin:0}
+.backup-box .btn{justify-self:start}
+
+.save-bar{position:sticky;bottom:12px;z-index:5;margin-top:16px;display:flex;align-items:center;flex-wrap:wrap;gap:8px 16px;padding:12px 16px;border:1px solid var(--line);border-radius:16px;background:var(--surface-glass);backdrop-filter:blur(10px);box-shadow:0 6px 24px rgba(0,0,0,.08)}
+.save-bar.is-dirty{border-color:var(--sage-line);background:var(--surface-2)}
+.save-status{margin:0;flex:1;min-width:150px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--ink-soft)}
+.save-bar.is-dirty .save-status{color:var(--green-dark)}
+.status-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--warning-line)}
+.save-error{margin:0;flex-basis:100%;order:3;font-size:12px;font-weight:600;color:var(--danger)}
+.save-actions{display:flex;gap:8px}
+
+@media(max-width:640px){
+  .panel.settings-card{padding:16px;gap:16px}
+  .settings-card-head{flex-wrap:wrap}
+  .settings-card-head>div{flex:1 1 calc(100% - 52px)}
+  .settings-card-head .btn{margin-left:50px;justify-content:flex-start;padding-left:4px}
+  .settings-grid{grid-template-columns:1fr}
+  .choice-group .choice{flex:1 1 calc(50% - 8px)}
+  .backup-box .btn{justify-self:stretch}
+  /* sit above the fixed bottom tab bar */
+  .save-bar{bottom:calc(72px + env(safe-area-inset-bottom));padding:12px}
+  .save-actions{width:100%}.save-actions .btn{flex:1}
+  .input-unit input{font-size:16px!important}
+}

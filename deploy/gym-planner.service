@@ -1,0 +1,24 @@
+[Unit]
+Description=Gym Planner API (FastAPI)
+After=network.target
+
+[Service]
+User=gymplanner
+Group=gymplanner
+WorkingDirectory=/opt/gym-planner/backend
+EnvironmentFile=/etc/gym-planner.env
+# Bring the database up to date, then start the API. It listens on this machine only; nginx is the public door.
+ExecStartPre=/opt/gym-planner/venv/bin/python -m alembic upgrade head
+ExecStart=/opt/gym-planner/venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --workers 1 --proxy-headers --forwarded-allow-ips=127.0.0.1
+Restart=on-failure
+RestartSec=3
+
+# Keep the service small and contained
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/var/lib/gym-planner
+
+[Install]
+WantedBy=multi-user.target

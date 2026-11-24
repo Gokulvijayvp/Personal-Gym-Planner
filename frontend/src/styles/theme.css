@@ -1,0 +1,106 @@
+/*
+ * Charcoal + Orange design tokens: the single source of colour for the whole app.
+ * Component CSS uses these variables only (no hardcoded hex values). Charcoal is the foundation;
+ * orange is the accent for primary actions, selection and highlights. Imported last so it wins.
+ */
+:root {
+  color-scheme: dark;
+
+  /* brand palette */
+  --bg: #202329;            /* primary background */
+  --bg-2: #242830;          /* secondary background */
+  --surface: #292e36;       /* cards, panels */
+  --surface-2: #323944;     /* elevated surface, hover, inset */
+  --accent: #ff8a24;        /* fitness orange */
+  --accent-hover: #e87512;  /* dark orange */
+  --text: #f5f6f8;          /* primary text */
+  --text-muted: #a7adb7;    /* secondary text */
+  --border: #3a414c;
+  --success: #35a875;
+  --warning: #e8b04b;
+  --error: #d9534f;
+
+  /* derived: tints, text-safe variants, effects (all built from the palette above) */
+  --on-accent: #1a1d22;                       /* dark text on orange: 7:1 contrast */
+  --text-soft: #c9cdd4;                       /* body text a step below primary */
+  --accent-soft: rgba(255, 138, 36, .14);     /* selected / highlighted fill */
+  --accent-line: rgba(255, 138, 36, .55);
+  --success-soft: rgba(53, 168, 117, .16);
+  --success-text: #5ccb9b;
+  --accent-text: #ffa55a;                     /* orange for small text on tinted/charcoal fills (5.9:1+) */
+  --warning-text: #f2c46d;
+  --warning-soft: rgba(232, 176, 75, .15);
+  --warning-line: rgba(232, 176, 75, .5);
+  --error-soft: rgba(217, 83, 79, .16);
+  --error-line: rgba(217, 83, 79, .55);
+  --error-text: #f2908c;                      /* red that stays readable on charcoal */
+  --info: #78b6dc;
+  --info-soft: rgba(120, 182, 220, .16);
+  --violet: #b0a3e0;
+  --violet-soft: rgba(176, 163, 224, .16);
+  --surface-glass: rgba(36, 40, 48, .94);     /* translucent bars */
+  --scrim: rgba(10, 12, 15, .66);
+  --shadow: 0 8px 24px rgba(0, 0, 0, .35);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, .35);
+  --focus: 0 0 0 3px rgba(255, 138, 36, .5);
+
+  /* shape and spacing (one set, used everywhere new) */
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 16px;
+
+  /* legacy names used throughout the older component CSS, now pointing at the tokens */
+  --green: var(--accent);
+  --green-dark: var(--accent-text);
+  --muted: var(--text-muted);
+  --line: var(--border);
+  --sage: var(--accent-soft);
+  --sage-line: var(--accent-line);
+  --ink: var(--text);
+  --ink-soft: var(--text-soft);
+  --danger: var(--error-text);
+  --danger-bg: var(--error-soft);
+  --danger-line: var(--error-line);
+  --ok-bg: var(--success-soft);
+
+  color: var(--text);
+  background: var(--bg);
+}
+
+html, body { background: var(--bg); color: var(--text); }
+::selection { background: var(--accent-soft); color: var(--text); }
+::placeholder { color: var(--text-muted); opacity: 1; }
+
+/* primary action: orange with dark text; hover darkens */
+.btn:hover:not(:disabled) { background: var(--accent-hover); border-color: var(--accent-hover); }
+.btn { color: var(--on-accent); }
+.btn-outline, .btn-ghost { color: var(--text); }
+.btn-outline { background: transparent; border-color: var(--border); }
+.btn-outline:hover:not(:disabled) { background: var(--surface-2); border-color: var(--accent-line); color: var(--text); }
+.btn-ghost:hover:not(:disabled) { background: var(--surface-2); }
+.btn-danger { background: var(--error); border-color: var(--error); color: #fff; }
+.btn-danger:hover:not(:disabled) { background: #c24541; border-color: #c24541; }
+.btn-danger-outline { background: transparent; color: var(--error-text); border-color: var(--error-line); }
+.btn:disabled { opacity: .5; }
+
+/* form controls on charcoal */
+input, select, textarea { color: var(--text); background-color: var(--bg-2); }
+input:disabled, select:disabled, textarea:disabled { color: var(--text-muted); }
+option { background: var(--surface); color: var(--text); }
+
+/* charts: orange is the primary series; grid and axes recede */
+.chart-grid { stroke: var(--border); }
+.chart-tick, .chart-axis-title { fill: var(--text-muted); }
+
+/* selected tabs / segments: orange-tinted with an orange edge (not a solid orange block) */
+.seg-btn.is-on, .prog-tab.is-on { background: var(--accent-soft); color: var(--accent-text); box-shadow: inset 0 0 0 1px var(--accent-line); }
+.seg, .prog-tabs, .settings-tabs { background: var(--bg-2); border: 1px solid var(--border); }
+
+/* Home shortcuts: neutral buttons with an orange icon (orange is kept for the primary action) */
+.quick-link { border-color: var(--border); color: var(--text); background: var(--surface); }
+.quick-link svg { color: var(--accent); }
+.quick-link:hover { background: var(--surface-2); border-color: var(--accent-line); }
+
+/* the catalogue's sticky filter bar takes the colour of whatever it sits on */
+.cat-tools { background: var(--bg); }
+.modal .cat-tools { background: var(--surface); }

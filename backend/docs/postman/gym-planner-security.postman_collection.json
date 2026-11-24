@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "Gym Planner - security checks",
+    "description": "Run the 'No session' folder with the Postman cookie jar EMPTY for your API host: every request must be 401 (or 405 for an unsupported method). Then sign in (folder 'Sign in'), copy the gp_csrf cookie value into the {{csrf}} collection variable, and run 'With a session'. A signed-in Postman is a legitimate client of the owner and can use the owner's data: the protection is that nobody WITHOUT the session cookie and CSRF token can.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base", "value": "http://localhost:8000/api/v1" },
+    { "key": "email", "value": "you@example.com" },
+    { "key": "csrf", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "No session (cookie jar empty) - everything must be refused",
+      "item": [
+        { "name": "GET dashboard", "request": { "method": "GET", "url": "{{base}}/dashboard" }, "event": [{ "listen": "test", "script": { "exec": ["pm.test('401 without a session', () => pm.response.to.have.status(401));"] } }] },
+        { "name": "GET exercise sets", "request": { "method": "GET", "url": "{{base}}/exercise-sets" }, "event": [{ "listen": "test", "script": { "exec": ["pm.test('401', () => pm.response.to.have.status(401));"] } }] },
+        { "name": "GET database backup", "request": { "method": "GET", "url": "{{base}}/settings/data/backup" }, "event": [{ "listen": "test", "script": { "exec": ["pm.test('401', () => pm.response.to.have.status(401));"] } }] },
+        { "name": "POST create exercise set", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "url": "{{base}}/exercise-sets", "body": { "mode": "raw", "raw": "{\"name\":\"x\",\"muscle_group\":\"Chest\",\"exercise_keys\":[]}" } }, "event": [{ "listen": "test", "script": { "exec": ["pm.test('401', () => pm.response.to.have.status(401));"] } }] },
+        { "name": "PUT settings", "request": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }], "url": "{{base}}/settings", "body": { "mode": "raw", "raw": "{}" } }, "event": [{ "listen": "test", "script": { "exec": ["pm.test('401', () => pm.response.to.have.status(401));"] } }] },
+        { "name": "PATCH workout set", "request": { "method": "PATCH", "header": [{ "key": "Content-Type", "value": "application/json" }], "url": "{{base}}/workouts/1/sets/1", "body": { "mode": "raw", "raw": "{}" } }, "event": [{ "listen": "test", "script": { "exec": ["pm.test('401', () => pm.response.to.have.status(401));"] } }] },
+        { "name": "DELETE exercise set", "request": { "method": "DELETE", "url": "{{base}}/exercise-sets/1" }, "event": [{ "listen": "test", "script": { "exec": ["pm.test('401', () => pm.response.to.have.status(401));"] } }] },
+        { "name": "POST reset all data", "request": { "method": "POST", "url": "{{base}}/settings/reset" }, "event": [{ "listen": "test", "script": { "exec": ["pm.test('401', () => pm.response.to.have.status(401));"] } }] },
+        { "name": "Forged cookie", "request": { "method": "GET", "header": [{ "key": "Cookie", "value": "gp_session=forged-value; gp_csrf=forged" }], "url": "{{base}}/dashboard" }, "event": [{ "listen": "test", "script": { "exec": ["pm.test('401 for a made-up session', () => pm.response.to.have.status(401));"] } }] },
+        { "name": "Unsupported method (DELETE on a read-only route)", "request": { "method": "DELETE", "url": "{{base}}/dashboard" }, "event": [{ "listen": "test", "script": { "exec": ["pm.test('405', () => pm.response.to.have.status(405));"] } }] },
+        { "name": "Untrusted Origin on a write", "request": { "method": "POST", "header": [{ "key": "Origin", "value": "http://evil.example" }, { "key": "Content-Type", "value": "application/json" }], "url": "{{base}}/auth/login/request-otp", "body": { "mode": "raw", "raw": "{\"email\":\"{{email}}\"}" } }, "event": [{ "listen": "test", "script": { "exec": ["pm.test('403 origin_not_allowed', () => pm.response.to.have.status(403));"] } }] }
+      ]
+    },
+    {
+      "name": "Sign in (the code appears in the backend terminal in development)",
+      "item": [
+        { "name": "1. Request login code", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "url": "{{base}}/auth/login/request-otp", "body": { "mode": "raw", "raw": "{\"email\":\"{{email}}\"}" } } },
+        { "name": "2. Verify code (edit the 6 digits)", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "url": "{{base}}/auth/verify-otp", "body": { "mode": "raw", "raw": "{\"email\":\"{{email}}\",\"code\":\"000000\"}" } }, "event": [{ "listen": "test", "script": { "exec": ["// After success, open Cookies for this host and copy gp_csrf into the {{csrf}} variable.", "pm.test('signed in', () => pm.response.to.have.status(200));"] } }] }
+      ]
+    },
+    {
+      "name": "With a session - reads work, writes need the CSRF header",
+      "item": [
+        { "name": "GET dashboard (allowed)", "request": { "method": "GET", "url": "{{base}}/dashboard" }, "event": [{ "listen": "test", "script": { "exec": ["pm.test('200 for the signed-in owner', () => pm.response.to.have.status(200));"] } }] },
+        { "name": "POST without CSRF header (refused)", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "url": "{{base}}/exercise-sets", "body": { "mode": "raw", "raw": "{\"name\":\"Chest A\",\"muscle_group\":\"Chest\",\"exercise_keys\":[]}" } }, "event": [{ "listen": "test", "script": { "exec": ["pm.test('403 csrf_failed', () => pm.response.to.have.status(403));"] } }] },
+        { "name": "POST with wrong CSRF header (refused)", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "X-CSRF-Token", "value": "wrong" }], "url": "{{base}}/exercise-sets", "body": { "mode": "raw", "raw": "{\"name\":\"Chest A\",\"muscle_group\":\"Chest\",\"exercise_keys\":[]}" } }, "event": [{ "listen": "test", "script": { "exec": ["pm.test('403', () => pm.response.to.have.status(403));"] } }] },
+        { "name": "POST with the right CSRF header (allowed)", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "X-CSRF-Token", "value": "{{csrf}}" }], "url": "{{base}}/exercise-sets", "body": { "mode": "raw", "raw": "{\"name\":\"Postman test\",\"muscle_group\":\"Chest\",\"exercise_keys\":[]}" } }, "event": [{ "listen": "test", "script": { "exec": ["pm.test('not blocked by security', () => pm.expect([201, 422]).to.include(pm.response.code));"] } }] },
+        { "name": "Log out", "request": { "method": "POST", "url": "{{base}}/auth/logout" }, "event": [{ "listen": "test", "script": { "exec": ["pm.test('204', () => pm.response.to.have.status(204));"] } }] },
+        { "name": "GET dashboard after logout (refused)", "request": { "method": "GET", "url": "{{base}}/dashboard" }, "event": [{ "listen": "test", "script": { "exec": ["pm.test('401 right after logout', () => pm.response.to.have.status(401));"] } }] }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+/* Shared UI primitives: buttons, forms, modal, toast, skeleton, badges. Light theme only. */
+:root{
+  --sage:var(--accent-soft);--sage-line:var(--border);
+  --danger:var(--error-text);--danger-bg:var(--error-soft);--danger-line:var(--error-line);
+  --ok-bg:var(--success-soft);--ink:var(--text);--ink-soft:var(--text-soft);
+  --focus:0 0 0 3px rgba(255,138,36,.22);
+}
+
+/* ---- buttons ---- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:42px;padding:0 18px;border:1px solid var(--green);border-radius:12px;background:var(--green);color:var(--on-accent);font:700 13px "DM Sans",sans-serif;text-decoration:none;cursor:pointer;transition:background .15s,border-color .15s,box-shadow .15s;white-space:nowrap}
+.btn:hover:not(:disabled){background:var(--green-dark);border-color:var(--green-dark)}
+.btn:focus-visible{outline:none;box-shadow:var(--focus)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn-outline{background:var(--surface);color:var(--green-dark);border-color:var(--sage-line)}
+.btn-outline:hover:not(:disabled){background:var(--sage);border-color:var(--sage-line);color:var(--green-dark)}
+.btn-ghost{background:transparent;color:var(--ink-soft);border-color:transparent}
+.btn-ghost:hover:not(:disabled){background:var(--surface-2);border-color:transparent;color:var(--ink)}
+.btn-danger{background:var(--danger);border-color:var(--danger)}
+.btn-danger:hover:not(:disabled){background:var(--error-text);border-color:var(--error-text)}
+.btn-danger-outline{color:var(--danger);border-color:var(--danger-line)}
+.btn-danger-outline:hover:not(:disabled){background:var(--danger-bg);border-color:var(--danger-line);color:var(--danger)}
+.btn-sm{min-height:36px;padding:0 12px;font-size:12px;border-radius:10px}
+.icon-btn{border:0;background:var(--surface-2);color:var(--text-soft);width:36px;height:36px;border-radius:10px;display:grid;place-items:center;cursor:pointer;flex:none}
+.icon-btn:hover:not(:disabled){background:var(--border)}
+.icon-btn:focus-visible{outline:none;box-shadow:var(--focus)}
+.icon-btn:disabled{opacity:.5;cursor:not-allowed}
+.icon-btn-plain{background:transparent;width:30px;height:30px}
+
+/* ---- form controls (16px on phones so iOS Safari doesn't zoom on focus) ---- */
+input,select,textarea{font:500 14px "DM Sans",sans-serif;color:var(--ink)}
+.field{display:grid;gap:6px;min-width:0;border:0;padding:0;margin:0}
+.field>label,.field>legend{font-size:12px;font-weight:700;color:var(--text-soft);padding:0}
+.field .req{color:var(--danger)}.field .optional{font-weight:500;color:var(--muted)}
+.field input[type=text],.field input:not([type]),.field input[type=url],.field input[type=date],.field input[type=number],.field select,.field textarea,
+.select-field select,.search-box input{width:100%;min-height:44px;padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:var(--surface);transition:border-color .15s,box-shadow .15s}
+.field textarea{resize:vertical;min-height:70px;line-height:1.5}
+.field input:focus,.field select:focus,.field textarea:focus,.select-field select:focus{outline:none;border-color:var(--green);box-shadow:var(--focus)}
+.field select:disabled{background:var(--surface-2);color:var(--text-muted);cursor:not-allowed}
+.field.has-error input,.field.has-error select,.field.has-error textarea{border-color:var(--danger);background:var(--error-soft)}
+.field .hint{color:var(--muted);font-size:11px}
+.error-text{color:var(--danger);font-size:12px;font-weight:600}
+.form-alert{margin:0 0 14px;padding:11px 14px;border-radius:12px;background:var(--danger-bg);border:1px solid var(--danger-line);color:var(--error-text);font-size:13px;line-height:1.5}
+.confirm-text p{margin:0 0 10px;color:var(--ink-soft);font-size:14px;line-height:1.6}.confirm-text b{color:var(--ink)}
+.page-desc{margin:8px 0 0;color:var(--muted);font-size:13px;max-width:520px;line-height:1.5}
+
+/* ---- modal ---- */
+.modal-backdrop{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.45);display:grid;place-items:center;padding:20px}
+.modal{background:var(--surface);border-radius:20px;width:100%;max-height:min(90vh,860px);max-height:min(90dvh,860px);display:flex;flex-direction:column;box-shadow:0 24px 70px rgba(0,0,0,.28);animation:modal-in .16s ease-out}
+.modal-md{max-width:640px}.modal-sm{max-width:440px}
+.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 22px 14px;border-bottom:1px solid var(--line)}
+.modal-head h2{margin:0;font:800 18px Manrope,sans-serif;letter-spacing:-.3px}
+.modal-body{flex:1 1 auto;min-height:0;padding:18px 22px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.modal-foot{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:10px;padding:14px 22px calc(14px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--surface);border-radius:0 0 20px 20px}
+@keyframes modal-in{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:none}}
+
+/* ---- toast ---- */
+.toast-region{position:fixed;z-index:60;bottom:calc(20px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:grid;gap:10px;width:min(420px,calc(100vw - 32px));pointer-events:none}
+.toast{pointer-events:none;display:flex;align-items:flex-start;gap:10px;padding:13px 14px;border-radius:14px;background:var(--surface);border:1px solid var(--line);box-shadow:0 10px 30px rgba(0,0,0,.16);font-size:13px;line-height:1.45;animation:toast-in .18s ease-out}
+.toast>span{flex:1;min-width:0;overflow-wrap:anywhere}
+.toast svg{flex:none;margin-top:1px}
+.toast-success{border-left:4px solid var(--green)}.toast-success svg{color:var(--green)}
+.toast-error{border-left:4px solid var(--danger)}.toast-error svg{color:var(--danger)}
+.toast-close{pointer-events:auto;border:0;background:transparent;color:var(--text-muted);cursor:pointer;padding:2px;border-radius:6px}
+.toast-close:hover{background:var(--surface-2)}
+@keyframes toast-in{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+/* ---- skeleton ---- */
+.skeleton{border-radius:8px;background:var(--surface-2);background-size:400% 100%;animation:shimmer 1.3s ease infinite}
+@keyframes shimmer{0%{background-position:100% 50%}100%{background-position:0 50%}}
+
+/* ---- badges / tags ---- */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:700}
+.badge-active{background:var(--ok-bg);color:var(--green-dark)}
+.badge-inactive{background:var(--surface-2);color:var(--text-muted)}
+.tag{display:inline-block;padding:4px 10px;border-radius:999px;background:var(--surface-2);color:var(--text-soft);font-size:11px;font-weight:600}
+.tag-primary{background:var(--sage);color:var(--green-dark)}
+.tag-type{background:var(--warning-soft);color:var(--warning-text)}
+
+/* ---- empty / error states, pagination ---- */
+.empty-actions{margin-top:16px}
+.error-state>span{background:var(--danger-bg);color:var(--danger)}
+.error-state .btn{margin-top:14px}
+.pagination{display:flex;align-items:center;justify-content:center;gap:16px;margin:22px 0 4px;font-size:13px;color:var(--ink-soft)}
+
+@media(prefers-reduced-motion:reduce){.modal,.toast,.skeleton{animation:none}}
+@media(max-width:640px){
+  input,select,textarea{font-size:16px}
+  /* modals become bottom sheets on phones */
+  .modal-backdrop{align-items:end;padding:0}
+  .modal{max-width:none;border-radius:20px 20px 0 0;max-height:94vh;max-height:94dvh;animation:sheet-in .2s ease-out}
+  .modal-sm{border-radius:20px 20px 0 0}
+  .modal-head{padding:16px 18px 12px}.modal-body{padding:16px 18px}
+  .modal-foot{padding:12px 18px calc(12px + env(safe-area-inset-bottom));border-radius:0}
+  .modal-foot{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}.modal-foot .btn{min-width:0;padding:0 12px;white-space:normal;text-align:center;line-height:1.2}
+  .modal-foot .btn:last-child:nth-child(odd){grid-column:1/-1}
+  /* toasts sit above the bottom navigation */
+  .toast-region{width:calc(100vw - 32px);bottom:calc(86px + env(safe-area-inset-bottom))}
+  .pagination{gap:8px}.pagination .btn{padding:0 12px}
+}
+@keyframes sheet-in{from{transform:translateY(24px);opacity:.6}to{transform:none;opacity:1}}
+
+/* ---- four-tab navigation: settings entry + phone app bar ---- */
+.side-bottom{margin-top:auto;display:grid;gap:2px}
+.side-settings{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:11px;color:var(--text-muted);text-decoration:none;font-size:13px;font-weight:600}
+.side-settings:hover{background:var(--surface-2)}
+.side-settings.active{color:var(--green-dark);background:var(--accent-soft)}
+.side-settings:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.side-logout{display:flex;align-items:center;gap:10px;padding:11px 14px;border:0;background:transparent;border-radius:11px;color:var(--text-muted);font:600 13px "DM Sans",sans-serif;cursor:pointer;text-align:left}
+.side-logout:hover{background:var(--surface-2);color:var(--ink)}
+.side-logout:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.app-bar-logout{border:0;background:transparent;cursor:pointer;margin-right:-8px}
+.app-bar{display:none}
+@media(max-width:640px){
+  .app-bar{display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:9;padding:10px 17px;background:var(--surface-glass);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
+  .app-bar .brand-icon{width:30px;height:30px;border-radius:9px}
+  .app-bar b{font:800 15px Manrope,sans-serif;flex:1}
+  .app-bar-settings{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;color:var(--ink-soft,var(--text-soft));margin-right:-8px}
+  .app-bar .app-bar-settings:not(.app-bar-logout){margin-right:0}
+  .app-bar-settings:focus-visible{outline:none;box-shadow:var(--focus)}
+  .main{padding-top:17px}
+}
+.toast-action{flex:none;min-height:36px;padding:0 12px;border:1px solid currentColor;border-radius:9px;background:transparent;color:inherit;font:800 13px "DM Sans",sans-serif;cursor:pointer}
+.toast-action:focus-visible{outline:none;box-shadow:var(--focus)}
+
+/* back arrow above a page title */
+.back-link{display:inline-flex;align-items:center;gap:6px;margin:0 0 10px;padding:6px 12px 6px 8px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:inherit;font:700 13px/1 Manrope,sans-serif;text-decoration:none}
+.back-link:hover,.back-link:focus-visible{border-color:var(--green)}
+.topbar .back-link{display:flex;width:fit-content}

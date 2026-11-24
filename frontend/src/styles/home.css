@@ -1,0 +1,105 @@
+/* Home dashboard */
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+.quick-links{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.quick-link{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:1px solid var(--sage-line);border-radius:12px;background:var(--surface);color:var(--green-dark);font-size:13px;font-weight:700;text-decoration:none;transition:background .15s}
+.quick-link:hover{background:var(--sage)}
+.quick-link:focus-visible{outline:none;box-shadow:var(--focus)}
+
+.home-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:16px;align-items:start}
+.home-col{display:grid;gap:16px;min-width:0}
+.home-skeleton{height:230px;border-radius:16px}.home-skeleton.short{height:150px}
+
+.panel.home-card{min-height:0;padding:20px;display:grid;gap:14px;min-width:0}
+.home-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;min-width:0}
+.home-card-head>div{min-width:0}
+.home-card-head h2{margin:5px 0 0;font:800 18px Manrope,sans-serif;letter-spacing:-.3px;overflow-wrap:anywhere}
+.home-sub{margin:4px 0 0;font-size:12px;color:var(--muted)}
+.home-icon{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:var(--sage);color:var(--green-dark)}
+.home-text{margin:0;font-size:13px;line-height:1.55;color:var(--ink-soft);display:flex;align-items:center;gap:7px}
+.home-title{margin:0;font:800 15px Manrope,sans-serif}
+.home-action{justify-self:start}
+.home-note{margin:0 0 14px;padding:11px 14px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);color:var(--text-soft);font-size:12.5px;line-height:1.55}
+.panel .home-note{margin:0}
+.home-empty{display:grid;gap:8px;justify-items:start;padding:14px 16px;border-radius:14px;background:var(--surface-2);border:1px dashed var(--border)}
+.home-empty b{font-size:14px}.home-empty p{margin:0;font-size:13px;line-height:1.55;color:var(--muted)}
+.home-more{margin:0;font-size:12px;color:var(--muted)}
+.ok-icon{color:var(--green);flex:none}
+
+/* today */
+.home-rest{display:grid;gap:8px;justify-items:start}
+.home-rest p{margin:0;font-size:13px;color:var(--muted)}
+.today-group h3{margin:0 0 6px;font:800 13px Manrope,sans-serif;color:var(--green-dark);display:flex;align-items:center;gap:6px}
+.today-group ul{list-style:none;margin:0;padding:0;display:grid}
+.today-group li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px solid var(--surface-2);font-size:13px}
+.today-group li:first-child{border-top:0}
+.today-group .ex-name{font-weight:600;min-width:0;overflow-wrap:anywhere}
+.today-group .ex-meta{flex:none;color:var(--muted);text-align:right}
+.today-cardio h3{color:var(--info)}
+.day-notes-line{margin:0;padding:10px 12px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);font-size:13px;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}
+.day-notes-line b{font-size:12px;color:var(--text-soft);margin-right:6px}
+
+/* week */
+.week-rows{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.week-row{display:flex;align-items:center;gap:14px;min-height:56px;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);text-decoration:none;min-width:0}
+a.week-row:hover{background:var(--surface-2);border-color:var(--sage-line)}
+a.week-row:focus-visible{outline:none;box-shadow:var(--focus)}
+.week-row.today{border-color:var(--green);background:var(--surface-2);box-shadow:inset 3px 0 0 var(--green)}
+.week-row.no-cycle{background:var(--surface-2);color:var(--muted)}
+.wr-day{flex:none;width:92px;display:grid;gap:2px}
+.wr-day b{font:800 14px Manrope,sans-serif}
+.wr-day small{font-size:11px;color:var(--muted)}
+.wr-main{flex:1;min-width:0;display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}
+.wr-line{display:inline-flex;align-items:center;flex-wrap:wrap;gap:6px}
+.wr-tags{display:inline-flex;flex-wrap:wrap;gap:5px}
+.wr-meta{font-size:12px;color:var(--muted);flex-basis:100%}
+.wr-muted{font-size:12.5px;color:var(--muted)}
+.wr-chevron{flex:none;color:var(--text-muted)}
+
+/* cycle */
+.cycle-week{margin:0;font:800 22px Manrope,sans-serif;letter-spacing:-.4px}
+.progress{height:10px;border-radius:999px;background:var(--surface-2);overflow:hidden}
+.progress>span{display:block;height:100%;border-radius:999px;background:var(--green);transition:width .3s}
+.progress-label{margin:0;font-size:12.5px;color:var(--ink-soft);font-weight:600}
+.cycle-dates{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0}
+.cycle-dates>div{padding:9px 11px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);min-width:0}
+.cycle-dates dt{font-size:11px;font-weight:700;color:var(--muted)}
+.cycle-dates dd{margin:2px 0 0;font-size:13px;font-weight:700;overflow-wrap:anywhere}
+
+/* stats */
+.home-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.home-stats .stat{padding:14px 15px;min-width:0;align-content:start}
+.home-stats .stat span{font-size:11px;line-height:1.35}
+.home-stats .stat b{font-size:24px}
+.home-stats .stat small{font-size:11px;line-height:1.35}
+
+/* checklist */
+.checklist-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.ck-row{display:flex;align-items:center;gap:12px;min-height:52px;padding:8px 10px;border-radius:12px;color:var(--ink);text-decoration:none}
+a.ck-row:hover{background:var(--surface-2)}
+a.ck-row:focus-visible{outline:none;box-shadow:var(--focus)}
+.ck-row.is-na{color:var(--muted)}
+.ck-icon{flex:none}.ck-done{color:var(--green)}.ck-pending{color:var(--text-muted)}.ck-not_applicable{color:var(--border)}
+.ck-text{display:grid;gap:2px;min-width:0}
+.ck-text b{font-size:13px}.ck-text small{font-size:11.5px;color:var(--muted);line-height:1.4}
+.recent-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+
+@media(max-width:1000px){
+  .home-grid{grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:640px){
+  /* today's plan first; the shortcuts (also in the tab bar and menu) follow the cards */
+  .home-page{display:flex;flex-direction:column}
+  .home-page .quick-links{order:2;margin:16px 0 0}
+  .quick-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .quick-link{justify-content:flex-start;padding:0 12px}
+  .panel.home-card{padding:16px}
+  .wr-day{width:78px}
+  .week-row{gap:10px;padding:10px}
+  .home-stats{grid-template-columns:minmax(0,1fr)}
+  .home-stats .stat{display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:12px}
+  .home-stats .stat small{grid-column:1/-1}
+  .home-action{justify-self:stretch;justify-content:center}
+  .cycle-dates{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .cycle-dates>div:last-child{grid-column:1/-1}
+}

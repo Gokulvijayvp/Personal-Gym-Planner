@@ -1,0 +1,65 @@
+/* Phone layout: small headers so the content gets the screen. Loaded after the page styles, before the theme tokens. */
+@media(max-width:640px){
+  /* app bar + page padding */
+  .app-bar{padding:6px 14px}
+  .app-bar .brand-icon{width:26px;height:26px;border-radius:8px}
+  .app-bar-settings{width:40px;height:40px}
+  .main{padding:10px 14px 88px}
+
+  /* page header: one slim row (back arrow + title), no eyebrow or description */
+  .topbar{flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 10px;margin-bottom:10px}
+  .topbar .eyebrow,.topbar .page-desc{display:none}
+  .topbar>div:first-child{display:flex;align-items:center;gap:10px;min-width:0;flex:1 1 auto}
+  .topbar h1{margin:0;font-size:20px;letter-spacing:-.5px}
+  .back-link{margin:0;width:34px;height:34px;padding:0;justify-content:center;flex:none}
+  .back-link span{display:none}
+  .topbar .header-actions:not(.planner-select){width:auto;flex:0 0 auto}
+  .topbar .header-actions:not(.planner-select) .btn{flex:none}
+  .planner-select .select-field.inline{flex-direction:row;align-items:center;gap:8px}
+  .planner-select .select-field.inline>span,.planner-select .select-field.inline>label{font-size:12px}
+
+  /* Workout tab: plan name, then four small tool buttons in one row */
+  .plan-head{flex-wrap:nowrap!important;gap:8px!important;margin-bottom:8px!important}
+  .plan-name{flex-direction:column;gap:0!important;min-width:0}
+  .plan-name .eyebrow{display:none}
+  .plan-name b{font-size:15px!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+  .plan-week{font-size:12px}
+  .plan-head-actions{flex-wrap:nowrap!important;gap:6px!important;flex:none}
+  .plan-tools{flex-wrap:nowrap!important;gap:6px!important}
+  .plan-tools .btn{width:38px;min-height:38px;padding:0;justify-content:center}
+  .plan-tools .pt-label{display:none}
+  .plan-head-actions>.btn{min-height:38px;padding:0 12px;font-size:13px}
+  .ws{gap:5px;margin-bottom:10px}
+  .ws-day{min-height:62px;padding:6px 2px}
+
+  /* calendar toolbar */
+  .cal-toolbar{padding:8px 10px;margin-bottom:10px;gap:8px}
+  .cal-nav{gap:6px}
+  .cal-arrow{width:36px;height:36px}
+  .cal-today{min-height:36px}
+  .cal-title{margin:0 0 0 4px;font-size:16px}
+  .cal-seg .seg-btn{min-height:36px}
+
+  /* weekly planner */
+  .planner-bar{flex-direction:row!important;align-items:center!important;justify-content:space-between;gap:8px;padding:10px 12px!important}
+  .planner-bar .btn{width:auto}
+  .planner-cycle-name{font-size:15px;gap:8px}
+  .week-selector{margin-bottom:8px}
+  .week-head{margin-bottom:8px}
+
+  /* workout cycles: actions in a tidy 2-column grid */
+  .cycle-actions{display:grid!important;grid-template-columns:1fr 1fr;gap:8px}
+  .cycle-actions .btn:first-child{grid-column:1/-1}
+  .cycle-actions .btn{min-height:40px}
+
+  /* exercises */
+  .sx-card{padding:12px}
+
+  /* quick setup sheet */
+  .modal-head{padding:12px 16px 8px}
+  .qs{gap:10px}
+  .qs-note{font-size:12px;margin:0}
+  .qs-count .hint{display:none}
+  .qs-summary{grid-column:1/-1;margin:0 0 2px;font-size:12px}
+  .modal-foot:has(.qs-summary) .btn:last-child:nth-child(odd){grid-column:auto}
+}

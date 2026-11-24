@@ -1,0 +1,131 @@
+/* Workout tab: week strip, day panel, quick dialogs */
+.ws{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin:0 0 14px}
+.ws-day{display:grid;justify-items:center;gap:2px;min-height:76px;padding:8px 2px;border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);cursor:pointer;font-family:inherit;min-width:0}
+.ws-day:hover{background:var(--surface-2)}
+.ws-day:focus-visible{outline:none;box-shadow:var(--focus)}
+.ws-name{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.3px;text-transform:uppercase}
+.ws-num{font:800 18px Manrope,sans-serif}
+.ws-state{max-width:100%;padding:0 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10.5px;color:var(--muted)}
+.ws-day.tone-plan .ws-state{color:var(--green-dark);font-weight:700}
+.ws-day.tone-rest .ws-state{font-style:italic}
+.ws-day.is-today .ws-num{color:var(--green)}
+.ws-day.is-today{border-color:var(--sage-line)}
+.ws-day.is-on{background:var(--sage);border-color:var(--green);box-shadow:0 0 0 1px var(--green) inset}
+
+.dp{min-height:0;padding:20px;display:grid;gap:16px;min-width:0}
+.dp-head{display:flex;gap:12px;align-items:flex-start;justify-content:space-between}
+.dp-head h2{margin:2px 0 0;font:800 22px/1.2 Manrope,sans-serif;letter-spacing:-.4px;overflow-wrap:anywhere}
+.dp-date{margin:4px 0 0;font-size:13px;color:var(--muted)}
+.dp-start{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.dp-start .btn{min-height:46px}
+.dp-done{font-size:13px;font-weight:700;color:var(--green-dark)}
+.dp-empty{display:grid;justify-items:center;gap:8px;padding:26px 12px;text-align:center;border:1px dashed var(--sage-line);border-radius:14px;background:var(--surface-2);color:var(--green-dark)}
+.dp-empty p{margin:0;color:var(--muted);font-size:13px}
+.dp-empty-actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:6px}
+.dp-group{display:grid;gap:8px}
+.dp-group h3{margin:0;font:800 12px Manrope,sans-serif;letter-spacing:.8px;text-transform:uppercase;color:var(--muted)}
+.dp-rows{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.dp-row-wrap{border:1px solid var(--line);border-radius:14px;background:var(--surface);min-width:0}
+.dp-ex{display:flex;align-items:center;gap:12px;padding:8px 10px;min-width:0}
+.dp-icon{flex:none;display:grid;place-items:center;width:48px;height:48px;border-radius:12px;background:var(--sage);border:1px solid var(--sage-line)}
+.dp-ex-text{display:grid;gap:2px;min-width:0;flex:1;justify-items:start}
+.dp-ex-text b{font:800 15px/1.25 Manrope,sans-serif;overflow-wrap:anywhere}
+.dp-target{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 8px;margin-left:-8px;border:0;border-radius:8px;background:transparent;color:var(--green-dark);font:700 13px "DM Sans",sans-serif;cursor:pointer}
+.dp-target:hover{background:var(--sage)}
+.dp-target:focus-visible{outline:none;box-shadow:var(--focus)}
+.dp-target-static{font-size:13px;color:var(--muted)}
+.dp-ex-actions{display:flex;gap:2px;flex:none}
+.dp-ex-actions .icon-btn{width:40px;height:40px}
+.dp-ex-menu{display:none}
+.icon-btn.is-danger{color:var(--danger)}
+.icon-btn:disabled{opacity:.4;cursor:not-allowed}
+.dp-edit{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:0 12px 12px;align-items:end}
+.dp-edit label{display:grid;gap:4px;font-size:12px;font-weight:700;color:var(--ink-soft,var(--text-soft))}
+.dp-edit input{min-height:44px;padding:0 10px;border:1px solid var(--border);border-radius:10px;font:inherit;width:100%;min-width:0}
+.dp-edit-actions{grid-column:1/-1;display:flex;gap:8px}
+.dp-edit .error-text{grid-column:1/-1}
+.dp-foot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.plan-links{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;margin-top:16px;font-size:13px;color:var(--muted)}
+.plan-links span{font-weight:700}
+.plan-links a{color:var(--green-dark);font-weight:700;min-height:32px;display:inline-flex;align-items:center}
+
+/* menu */
+.menu{position:relative;flex:none}
+.menu-trigger{width:44px;height:44px}
+.menu-list{position:absolute;top:calc(100% + 4px);z-index:30;min-width:230px;padding:6px;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:0 12px 32px rgba(0,0,0,.16);display:grid;gap:2px}
+.menu-list.is-right{right:0}
+.menu-item{display:flex;align-items:center;gap:10px;width:100%;min-height:44px;padding:0 12px;border:0;border-radius:10px;background:transparent;text-align:left;font:600 14px "DM Sans",sans-serif;color:var(--ink);cursor:pointer}
+.menu-item:hover:not(:disabled),.menu-item:focus-visible{background:var(--sage);outline:none}
+.menu-item:disabled{opacity:.45;cursor:not-allowed}
+.menu-item.is-danger{color:var(--danger)}
+.menu-item.is-sep{border-top:1px solid var(--line);border-radius:0 0 10px 10px;margin-top:4px;padding-top:2px}
+
+/* quick add */
+.qa-head{margin:6px 0 0;font:800 12px Manrope,sans-serif;letter-spacing:.8px;text-transform:uppercase;color:var(--muted)}
+.qa-head span{text-transform:none;letter-spacing:0;font-weight:500}
+.qa-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.qa-row{display:flex;align-items:center;gap:12px;width:100%;min-height:56px;padding:6px 12px 6px 8px;border:1px solid var(--line);border-radius:12px;background:var(--surface);text-align:left;font-family:inherit;color:var(--ink);cursor:pointer}
+.qa-row:hover:not(:disabled){background:var(--sage);border-color:var(--sage-line)}
+.qa-row:focus-visible{outline:none;box-shadow:var(--focus)}
+.qa-row:disabled{opacity:.6;cursor:wait}
+.qa-icon{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:10px;background:var(--sage)}
+.qa-text{display:grid;gap:2px;min-width:0;flex:1}
+.qa-text b{font:700 14px/1.25 "DM Sans",sans-serif;overflow-wrap:anywhere}
+.qa-text small{font-size:12px;color:var(--muted)}
+
+/* day picker + quick plan */
+.dp-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.dp-row{display:grid;gap:2px;width:100%;min-height:56px;padding:8px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);text-align:left;font-family:inherit;color:var(--ink);cursor:pointer}
+.dp-row:hover:not(:disabled){background:var(--sage)}
+.dp-row:focus-visible{outline:none;box-shadow:var(--focus)}
+.dp-row:disabled{opacity:.5;cursor:not-allowed}
+.dp-row b{font-size:14px}.dp-row small{font-size:12px;color:var(--muted)}
+.dp-row.is-confirm{border-color:var(--danger);background:var(--error-soft)}
+.dp-row.is-confirm small{color:var(--danger);font-weight:700}
+.qp-weeks{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.qp-weeks .icon-choice b{font:800 22px Manrope,sans-serif}
+
+@media(max-width:640px){
+  .dp{padding:16px}
+  .ws{gap:4px}
+  .ws-day{min-height:70px;border-radius:12px}
+  .ws-state{display:none}
+  /* one slim row per exercise: icon, name + target, and a small menu for the actions */
+  .dp-ex{display:flex;align-items:center;gap:10px;padding:6px 6px 6px 8px}
+  .dp-icon{width:42px;height:42px}
+  .dp-ex-text b{font-size:14px}
+  .dp-ex-actions{display:none}
+  .dp-ex-menu{display:block;flex:none}
+  .dp-ex-menu .menu-trigger{width:40px;height:40px}
+  .dp-ex-actions:has(.is-danger:only-child){display:flex}   /* cardio keeps its single remove button */
+  .dp-edit{grid-template-columns:1fr 1fr}
+  .dp-edit label:nth-child(3){grid-column:1/-1}
+  .menu-list{min-width:min(260px,calc(100vw - 34px))}
+}
+.dp-head-actions{display:flex;align-items:center;gap:8px;flex:none}
+.dp-head-actions .btn{min-height:44px}
+
+/* quick setup */
+.qs{display:grid;gap:14px}
+.qs-presets{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.qs-label{font:800 12px/1 Manrope,sans-serif;opacity:.7;text-transform:uppercase;letter-spacing:.06em;margin-right:2px}
+.qs-count{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.qs-count input{width:64px}
+.qs-days{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.qs-day{display:grid;gap:10px;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.qs-day.is-set{border-color:var(--green)}
+.qs-day.is-rest{background:var(--surface-2)}
+.qs-day-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.qs-muscles{display:flex;flex-wrap:wrap;gap:6px}
+.qs-more{justify-self:start;background:none;border:0;padding:0;color:var(--green);font:700 13px/1.3 Manrope,sans-serif;cursor:pointer;text-decoration:underline}
+.qs-picks{display:grid;gap:8px;max-height:220px;overflow:auto;padding:8px;border:1px solid var(--line);border-radius:10px}
+.qs-picks fieldset{border:0;margin:0;padding:0;display:grid;gap:4px}
+.qs-picks legend{font:800 12px/1.4 Manrope,sans-serif;opacity:.7;padding:0}
+.qs-pick{display:flex;align-items:center;gap:8px;font-size:14px}
+.qs-pick small{opacity:.6;margin-left:auto}
+.qs-scope{display:grid;gap:8px;border:1px solid var(--line);border-radius:14px;padding:12px}
+.qs-scope legend{font:800 12px/1 Manrope,sans-serif;text-transform:uppercase;letter-spacing:.06em;opacity:.7;padding:0 6px}
+.qs-radio{display:flex;align-items:center;gap:8px}
+.qs-radio.is-disabled{opacity:.5}
+.qs-summary{margin-right:auto;font-size:13px;opacity:.8}
+.qs-sets{display:flex;flex-wrap:wrap;gap:6px;align-items:center}

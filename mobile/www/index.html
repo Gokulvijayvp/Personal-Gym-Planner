@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <title>Gym Planner</title>
+  <style>
+    :root { --bg:#202329; --card:#292e36; --line:#3a414c; --text:#f5f6f8; --muted:#a7adb7; --orange:#ff8a24; --orange-hover:#e87512; --error:#f2908c; --ok:#5ccb9b; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); font-family: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    body { display: grid; place-items: center; padding: 20px 16px; }
+    main { width: 100%; max-width: 420px; }
+    .logo { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 22px; }
+    .logo span { width: 44px; height: 44px; border-radius: 13px; background: var(--orange); display: grid; place-items: center; }
+    .logo svg { width: 26px; height: 26px; }
+    .logo b { font-size: 24px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 22px 20px; }
+    h1 { margin: 0 0 6px; font-size: 20px; text-align: center; }
+    p { margin: 0; }
+    .sub { color: var(--muted); font-size: 14px; line-height: 1.5; text-align: center; margin-bottom: 18px; }
+    label { display: block; font-size: 12px; font-weight: 700; color: #c9cdd4; margin-bottom: 6px; }
+    input { width: 100%; min-height: 48px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: #242830; color: var(--text); font-size: 16px; }
+    input:focus { outline: none; border-color: var(--orange); box-shadow: 0 0 0 3px rgba(255,138,36,.45); }
+    button { width: 100%; min-height: 48px; margin-top: 14px; border: 0; border-radius: 12px; background: var(--orange); color: #1a1d22; font-size: 15px; font-weight: 700; }
+    button:active { background: var(--orange-hover); }
+    button[disabled] { opacity: .6; }
+    .msg { min-height: 20px; margin-top: 12px; font-size: 13.5px; text-align: center; line-height: 1.4; }
+    .msg.err { color: var(--error); } .msg.ok { color: var(--ok); }
+    .hint { margin-top: 16px; color: var(--muted); font-size: 12.5px; line-height: 1.5; text-align: center; }
+  </style>
+</head>
+<body>
+<main>
+  <div class="logo">
+    <span><svg viewBox="0 0 24 24" fill="none" stroke="#1a1d22" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/></svg></span>
+    <b>Gym Planner</b>
+  </div>
+  <section class="card">
+    <h1>Connect to your server</h1>
+    <p class="sub">Enter the address of your Gym Planner server. The app remembers it.</p>
+    <form id="form" novalidate>
+      <label for="addr">Server address</label>
+      <input id="addr" type="url" inputmode="url" autocapitalize="none" autocomplete="off" spellcheck="false" placeholder="http://13.233.10.20">
+      <button id="go" type="submit">Connect</button>
+      <p id="msg" class="msg" role="status" aria-live="polite"></p>
+    </form>
+    <p class="hint">Use the public address of your server (for example the EC2 IP address). No domain is needed.</p>
+  </section>
+</main>
+<script>
+  var KEY = "gymplanner.server";
+  var form = document.getElementById("form"), addr = document.getElementById("addr"), go = document.getElementById("go"), msg = document.getElementById("msg");
+  function say(text, kind) { msg.textContent = text; msg.className = "msg" + (kind ? " " + kind : ""); }
+  function read() { try { return localStorage.getItem(KEY) || ""; } catch (e) { return ""; } }
+  function save(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+
+  // "13.233.10.20", "http://13.233.10.20/", "https://x.sslip.io/path" -> "http://13.233.10.20" / "https://x.sslip.io"
+  function clean(input) {
+    var v = String(input || "").trim();
+    if (!v) return null;
+    if (!/^[a-z][a-z0-9+.-]*:\/\//i.test(v)) v = "http://" + v;
+    try {
+      var u = new URL(v);
+      if (u.protocol !== "http:" && u.protocol !== "https:") return null;
+      if (!u.hostname || /\s/.test(u.hostname)) return null;
+      return u.protocol + "//" + u.host;
+    } catch (e) { return null; }
+  }
+
+  function reachable(url) {
+    var c = new AbortController(), t = setTimeout(function () { c.abort(); }, 9000);
+    // no-cors: we only need to know the server answered; the page itself is then opened normally (same origin as the server)
+    return fetch(url + "/health", { mode: "no-cors", cache: "no-store", signal: c.signal })
+      .then(function () { clearTimeout(t); return true; }, function () { clearTimeout(t); return false; });
+  }
+
+  function connect(raw, silent) {
+    var url = clean(raw);
+    if (!url) { say("Enter an address like http://13.233.10.20", "err"); return; }
+    go.disabled = true; say("Connecting…");
+    reachable(url).then(function (ok) {
+      if (!ok) { go.disabled = false; say("Could not reach " + url + ". Check the address, that the server is running, and your internet connection.", "err"); return; }
+      save(url); say("Connected. Opening…", "ok");
+      window.location.replace(url + "/");
+    });
+  }
+
+  form.addEventListener("submit", function (e) { e.preventDefault(); connect(addr.value); });
+
+  var saved = read();
+  addr.value = saved;
+  // Open the saved server straight away, except when the person came back here with the Back button to change it.
+  var nav = (performance.getEntriesByType && performance.getEntriesByType("navigation")[0]) || {};
+  if (saved && nav.type !== "back_forward") connect(saved, true);
+  else if (!saved) addr.focus();
+</script>
+</body>
+</html>
